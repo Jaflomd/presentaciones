@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Niveles de Razonamiento Clínico Psiquiátrico — Yachay</title>
+
+    <!-- Fonts: Crimson Pro (display) + Spectral (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           CSS CUSTOM PROPERTIES — ZEN THEME
+           Warm earth tones, generous whitespace,
+           elegant serifs, breathing room
+           =========================================== */
+        :root {
+            /* Colors — Black & Gold */
+            --bg-warm: #0c0c0c;
+            --bg-dark: #000000;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --text: #e0d5c5;
+            --text-light: #a89b8a;
+            --text-muted: #6b6156;
+            --text-on-dark: #f0e8dc;
+            --text-on-dark-muted: #8a7e70;
+            --accent: #d4af37;
+            --accent-soft: #b8962e;
+            --accent-line: rgba(212, 175, 55, 0.2);
+            --sage: #d4af37;
+            --sage-soft: rgba(212, 175, 55, 0.35);
+
+            /* Typography — clamp() for viewport fitting */
+            --font-display: 'Crimson Pro', Georgia, serif;
+            --font-body: 'Spectral', 'Times New Roman', serif;
+            --title-size: clamp(2rem, 5.5vw, 4.5rem);
+            --h2-size: clamp(1.4rem, 3.2vw, 2.4rem);
+            --h3-size: clamp(1.1rem, 2.2vw, 1.6rem);
+            --body-size: clamp(0.8rem, 1.3vw, 1.05rem);
+            --small-size: clamp(0.65rem, 0.9vw, 0.8rem);
+            --caption-size: clamp(0.55rem, 0.75vw, 0.7rem);
+
+            /* Spacing */
+            --slide-padding: clamp(1.5rem, 5vw, 5rem);
+            --content-gap: clamp(0.75rem, 2vw, 2rem);
+            --element-gap: clamp(0.3rem, 1vw, 0.75rem);
+
+            /* Animation */
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration: 0.8s;
+        }
+
+        /* ===========================================
+           RESET & BASE
+           =========================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* --- VIEWPORT BASE (mandatory) --- */
+        html, body { height: 100%; overflow-x: hidden; }
+        html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 100%;
+            overflow: hidden;
+            padding: var(--slide-padding);
+        }
+
+        img, .image-container {
+            max-width: 100%;
+            max-height: min(50vh, 400px);
+            object-fit: contain;
+        }
+
+        @media (max-height: 700px) {
+            :root {
+                --slide-padding: clamp(0.75rem, 3vw, 2rem);
+                --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+                --title-size: clamp(1.5rem, 4.5vw, 2.5rem);
+                --h2-size: clamp(1.1rem, 2.8vw, 1.75rem);
+            }
+        }
+        @media (max-height: 600px) {
+            :root {
+                --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+                --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+                --title-size: clamp(1.1rem, 4vw, 2rem);
+                --body-size: clamp(0.7rem, 1.1vw, 0.9rem);
+            }
+            .nav-dots, .keyboard-hint, .decorative { display: none; }
+        }
+        @media (max-height: 500px) {
+            :root {
+                --slide-padding: clamp(0.4rem, 2vw, 1rem);
+                --title-size: clamp(1rem, 3.5vw, 1.5rem);
+                --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+                --body-size: clamp(0.65rem, 1vw, 0.85rem);
+            }
+        }
+        @media (max-width: 600px) {
+            :root { --title-size: clamp(1.25rem, 7vw, 2.5rem); }
+            .two-col { grid-template-columns: 1fr !important; }
+            .three-col { grid-template-columns: 1fr !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+
+        /* ===========================================
+           ZEN TYPOGRAPHY
+           =========================================== */
+        body {
+            font-family: var(--font-body);
+            color: var(--text);
+            background: var(--bg-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 300;
+            letter-spacing: -0.01em;
+            line-height: 1.15;
+        }
+
+        h1 { font-size: var(--title-size); }
+        h2 { font-size: var(--h2-size); }
+        h3 { font-size: var(--h3-size); }
+        p, li { font-size: var(--body-size); line-height: 1.6; }
+
+        /* ===========================================
+           ZEN SLIDE TYPES
+           =========================================== */
+
+        /* --- Warm content slide --- */
+        .slide-warm {
+            background: var(--bg-warm);
+        }
+
+        .slide-warm .slide-content {
+            max-width: min(90vw, 1100px);
+            margin: 0 auto;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* --- Dark section divider --- */
+        .slide-dark {
+            background: var(--bg-dark);
+            text-align: center;
+        }
+
+        .slide-dark .slide-content {
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Large decorative level number */
+        .level-glyph {
+            position: absolute;
+            font-family: var(--font-display);
+            font-size: clamp(8rem, 22vw, 18rem);
+            font-weight: 300;
+            color: rgba(212, 175, 55, 0.06);
+            line-height: 1;
+            pointer-events: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -55%);
+            z-index: 0;
+        }
+
+        .slide-dark h1,
+        .slide-dark h2 {
+            color: var(--text-on-dark);
+            text-shadow: 0 0 40px rgba(212, 175, 55, 0.15);
+        }
+
+        .slide-dark p {
+            color: var(--text-on-dark-muted);
+        }
+
+        /* --- Section label (small, above title) --- */
+        .section-label {
+            font-family: var(--font-body);
+            font-size: var(--small-size);
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: var(--element-gap);
+            font-weight: 500;
+        }
+
+        .slide-dark .section-label {
+            color: var(--accent-soft);
+        }
+
+        /* --- Thin rule --- */
+        .zen-rule {
+            width: clamp(40px, 5vw, 80px);
+            height: 1px;
+            background: var(--accent-line);
+            border: none;
+            margin: var(--content-gap) auto;
+        }
+
+        .slide-dark .zen-rule {
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+        }
+
+        /* ===========================================
+           CONTENT ELEMENTS
+           =========================================== */
+
+        /* --- Bullet list --- */
+        .zen-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.3rem, 0.8vh, 0.6rem);
+            text-align: left;
+            width: 100%;
+        }
+
+        .zen-list li {
+            padding-left: 1.2em;
+            position: relative;
+        }
+
+        .zen-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.6em;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent-soft);
+        }
+
+        .zen-list .emphasis {
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        /* --- Quote block --- */
+        .zen-quote {
+            border-left: 2px solid var(--accent-soft);
+            padding: clamp(0.6rem, 1.5vw, 1.2rem) clamp(1rem, 2vw, 1.5rem);
+            background: var(--bg-card);
+            font-style: italic;
+            font-size: var(--body-size);
+            color: var(--text-light);
+            margin: var(--content-gap) 0;
+            width: 100%;
+            text-align: left;
+        }
+
+        .zen-quote .attribution {
+            display: block;
+            font-style: normal;
+            font-size: var(--small-size);
+            color: var(--text-muted);
+            margin-top: 0.5em;
+        }
+
+        /* --- Citation --- */
+        .citation {
+            font-size: var(--caption-size);
+            color: var(--text-muted);
+            font-style: italic;
+            position: absolute;
+            bottom: clamp(0.5rem, 1.5vh, 1rem);
+            left: var(--slide-padding);
+            right: var(--slide-padding);
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* --- Table --- */
+        .zen-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: var(--body-size);
+            text-align: left;
+        }
+
+        .zen-table th {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: var(--small-size);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            text-align: left;
+            padding: clamp(0.3rem, 0.6vw, 0.5rem) clamp(0.4rem, 0.8vw, 0.8rem);
+            border-bottom: 1.5px solid var(--accent-line);
+        }
+
+        .zen-table td {
+            padding: clamp(0.25rem, 0.5vw, 0.4rem) clamp(0.4rem, 0.8vw, 0.8rem);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            vertical-align: top;
+        }
+
+        .zen-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* --- Concept card --- */
+        .concept-card {
+            background: var(--bg-card);
+            padding: clamp(0.6rem, 1.2vw, 1rem) clamp(0.8rem, 1.5vw, 1.2rem);
+            border-left: 2px solid var(--sage-soft);
+            transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
+            text-align: left;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.08);
+        }
+
+        .concept-card h3 {
+            font-size: var(--small-size);
+            font-weight: 600;
+            color: var(--sage);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.3em;
+        }
+
+        .concept-card p, .concept-card li {
+            font-size: var(--small-size);
+        }
+
+        /* --- Two column layout --- */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(1rem, 2vw, 2rem);
+            width: 100%;
+            text-align: left;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: clamp(0.6rem, 1.5vw, 1.5rem);
+            width: 100%;
+            text-align: left;
+        }
+
+        /* --- Highlight box --- */
+        .highlight-box {
+            background: rgba(212, 175, 55, 0.06);
+            padding: clamp(0.5rem, 1vw, 0.8rem) clamp(0.8rem, 1.5vw, 1.2rem);
+            border: 1px solid var(--accent-line);
+            text-align: center;
+            font-weight: 500;
+            color: var(--accent);
+            font-size: var(--body-size);
+            width: 100%;
+        }
+
+        /* --- Network diagram (pre block) --- */
+        .network-diagram {
+            font-family: 'Courier New', monospace;
+            font-size: clamp(0.5rem, 0.85vw, 0.75rem);
+            line-height: 1.45;
+            color: var(--accent);
+            background: rgba(212, 175, 55, 0.04);
+            padding: clamp(0.8rem, 1.2vw, 1.2rem);
+            white-space: pre;
+            overflow: hidden;
+            border-left: 2px solid var(--accent-soft);
+        }
+
+        /* --- Bar chart for HiTOP --- */
+        .hitop-domain {
+            margin-bottom: clamp(0.2rem, 0.5vh, 0.5rem);
+        }
+
+        .hitop-domain-label {
+            font-size: clamp(0.55rem, 0.8vw, 0.7rem);
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 0.15em;
+        }
+
+        .hitop-item {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.3rem, 0.5vw, 0.5rem);
+            margin-bottom: 0.1em;
+        }
+
+        .hitop-item-label {
+            font-size: clamp(0.5rem, 0.7vw, 0.65rem);
+            color: var(--text-light);
+            width: clamp(80px, 10vw, 120px);
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .hitop-bar-bg {
+            flex: 1;
+            max-width: clamp(120px, 18vw, 220px);
+            height: clamp(6px, 0.8vh, 10px);
+            background: rgba(255, 255, 255, 0.06);
+            position: relative;
+        }
+
+        .hitop-bar-fill {
+            height: 100%;
+            background: rgba(212, 175, 55, 0.3);
+            transition: width 1s var(--ease-out);
+        }
+
+        .hitop-bar-fill.high {
+            background: var(--accent);
+        }
+
+        .hitop-score {
+            font-size: clamp(0.45rem, 0.6vw, 0.55rem);
+            color: var(--text-muted);
+            width: 2em;
+            flex-shrink: 0;
+        }
+
+        /* --- Phase step --- */
+        .phase-step {
+            display: flex;
+            align-items: baseline;
+            gap: clamp(0.5rem, 1vw, 1rem);
+            margin-bottom: clamp(0.2rem, 0.5vh, 0.4rem);
+        }
+
+        .phase-label {
+            font-family: var(--font-display);
+            font-size: var(--small-size);
+            font-weight: 600;
+            color: var(--accent);
+            white-space: nowrap;
+            min-width: clamp(60px, 8vw, 100px);
+        }
+
+        .phase-desc {
+            font-size: var(--small-size);
+            color: var(--text-light);
+        }
+
+        /* --- Level summary row --- */
+        .level-row {
+            display: flex;
+            align-items: baseline;
+            gap: clamp(0.5rem, 1vw, 1rem);
+            padding: clamp(0.2rem, 0.4vh, 0.35rem) 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .level-row:last-child { border-bottom: none; }
+
+        .level-num {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 300;
+            color: var(--accent-soft);
+            min-width: 2em;
+        }
+
+        .level-name {
+            font-family: var(--font-display);
+            font-size: var(--body-size);
+            font-weight: 600;
+            color: var(--accent);
+            min-width: clamp(60px, 8vw, 100px);
+        }
+
+        .level-desc {
+            font-size: var(--body-size);
+            color: var(--text-light);
+        }
+
+        /* --- Footer --- */
+        .slide-footer {
+            font-size: var(--caption-size);
+            color: var(--text-muted);
+            text-align: center;
+            padding: clamp(0.3rem, 0.5vh, 0.5rem);
+            letter-spacing: 0.1em;
+        }
+
+        .slide-dark .slide-footer {
+            color: var(--text-on-dark-muted);
+        }
+
+        /* ===========================================
+           ANIMATIONS — Zen: slow, gentle, subtle
+           =========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity var(--duration) var(--ease-out),
+                        transform var(--duration) var(--ease-out);
+        }
+
+        .slide.visible .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal:nth-child(1) { transition-delay: 0.05s; }
+        .reveal:nth-child(2) { transition-delay: 0.15s; }
+        .reveal:nth-child(3) { transition-delay: 0.25s; }
+        .reveal:nth-child(4) { transition-delay: 0.35s; }
+        .reveal:nth-child(5) { transition-delay: 0.45s; }
+        .reveal:nth-child(6) { transition-delay: 0.55s; }
+        .reveal:nth-child(7) { transition-delay: 0.65s; }
+
+        .reveal-slow {
+            opacity: 0;
+            transition: opacity 1.2s var(--ease-out);
+        }
+
+        .slide.visible .reveal-slow {
+            opacity: 1;
+        }
+
+        /* Dramatic reveal for closing slide */
+        .reveal-dramatic {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 1.5s var(--ease-out),
+                        transform 1.8s var(--ease-out);
+        }
+
+        .slide.visible .reveal-dramatic {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-dramatic:nth-child(1) { transition-delay: 0.2s; }
+        .reveal-dramatic:nth-child(2) { transition-delay: 0.8s; }
+        .reveal-dramatic:nth-child(3) { transition-delay: 1.4s; }
+        .reveal-dramatic:nth-child(4) { transition-delay: 2.0s; }
+        .reveal-dramatic:nth-child(5) { transition-delay: 2.4s; }
+
+        /* ===========================================
+           PROGRESS BAR
+           =========================================== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: var(--accent-soft);
+            z-index: 100;
+            transition: width 0.3s ease;
+        }
+
+        /* ===========================================
+           NAV DOTS
+           =========================================== */
+        .nav-dots {
+            position: fixed;
+            right: clamp(8px, 1.5vw, 20px);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 0;
+        }
+
+        .nav-dot.active {
+            background: var(--accent);
+            transform: scale(1.4);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+        }
+
+        .nav-dot:hover {
+            background: var(--accent-soft);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Nav dots -->
+<nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+
+<!-- ============================================================
+     SLIDE 0 — PORTADA
+     ============================================================ -->
+<section class="slide slide-dark" data-section="portada">
+    <div class="slide-content" style="align-items: center; text-align: center;">
+        <p class="section-label reveal">Yachay &middot; Marzo 2026</p>
+        <h1 class="reveal" style="font-weight: 300;">5 Niveles de<br>Razonamiento Clínico<br>Psiquiátrico</h1>
+        <hr class="zen-rule reveal">
+        <p class="reveal" style="color: var(--text-on-dark-muted); font-size: var(--body-size); font-style: italic;">Del checklist al sistema dinámico complejo</p>
+        <div class="reveal" style="margin-top: var(--content-gap);">
+            <p style="color: var(--accent-soft); font-size: var(--body-size); font-weight: 500;">Dr. Javier Flores-Cohaila</p>
+            <p style="color: var(--text-on-dark-muted); font-size: var(--small-size);">Residente de Psiquiatría</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 1 — HOOK: LA PACIENTE
+     ============================================================ -->
+<section class="slide slide-warm" data-section="apertura">
+    <div class="slide-content">
+        <p class="section-label reveal">Apertura</p>
+        <h2 class="reveal">La paciente</h2>
+        <hr class="zen-rule reveal">
+        <div class="zen-quote reveal">
+            Mujer, 38 años. Centro de salud mental comunitario.<br>
+            5 diagnósticos: psicosis NOS, TEPT, TOC, trastorno explosivo intermitente, TP emocionalmente inestable.<br>
+            Trauma severo desde la infancia. Sin atención psiquiátrica hasta los 37.<br>
+            Duerme 3 horas. Rituales de lavado de 3 horas. Alucinaciones visuales de 20+ años.<br>
+            Voces imperativas con comando suicida. IS activa con plan.
+            <p style="font-family: var(--font-display); font-size: var(--h3-size); color: var(--accent); font-style: normal; margin-top: 0.6em; font-weight: 400; letter-spacing: 0.01em;">"Soy una traba para mi familia."</p>
+        </div>
+        <p class="highlight-box reveal">5 diagnósticos. ¿Dónde empiezas? Y más importante: <strong>¿cómo sabes</strong> que empezaste bien?</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 2 — PREGUNTA METODOLÓGICA
+     ============================================================ -->
+<section class="slide slide-warm" data-section="apertura">
+    <div class="slide-content">
+        <p class="section-label reveal">Apertura</p>
+        <h2 class="reveal">La pregunta metodológica</h2>
+        <hr class="zen-rule reveal">
+        <ul class="zen-list reveal">
+            <li>La pregunta NO es solo "¿qué tiene esta paciente?" <span class="emphasis">(ontología)</span></li>
+            <li>La pregunta es: <span class="emphasis">"¿cuál es el método adecuado para llegar a saberlo?"</span> (epistemología)</li>
+            <li>Kind (2025): el razonamiento diagnóstico necesita justificación epistémica</li>
+            <li>No basta con "experiencia" ni con "checklist"</li>
+            <li>Hoy: <span class="emphasis">5 niveles de resolución</span> para responder esa pregunta</li>
+        </ul>
+        <p class="citation reveal">Kind A (2025). <em>How Does the Psychiatrist Know?</em> transcript Verlag. Caps. 1-2.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3 — OBJETIVO DEL DIAGNÓSTICO
+     ============================================================ -->
+<section class="slide slide-warm" data-section="apertura">
+    <div class="slide-content">
+        <p class="section-label reveal">Apertura</p>
+        <h2 class="reveal">El objetivo del diagnóstico en psiquiatría</h2>
+        <hr class="zen-rule reveal">
+        <ul class="zen-list reveal">
+            <li>La psicopatología no existe para clasificar personas</li>
+            <li>Existe para <span class="emphasis">entender el sufrimiento de UNA persona</span></li>
+            <li>Ella no quiere 5 diagnósticos. Quiere dejar de ser "una traba"</li>
+            <li>Nuestro objetivo: que ella logre SUS objetivos — seguridad, regulación, conexión</li>
+            <li>El razonamiento clínico empieza ahí, no en el CIE</li>
+        </ul>
+        <div class="zen-quote reveal">
+            "Un modelo clínico se organiza en torno a las metas que el paciente trae al tratamiento."
+            <span class="attribution">— Heinrichs, POP (2025)</span>
+        </div>
+        <p class="citation reveal">Heinrichs DW (2025). <em>How Psychiatrists Make Decisions.</em> Oxford University Press.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4 — MAPA / 5 NIVELES
+     ============================================================ -->
+<section class="slide slide-warm" data-section="apertura">
+    <div class="slide-content">
+        <p class="section-label reveal">Apertura</p>
+        <h2 class="reveal">El mapa, no el territorio</h2>
+        <hr class="zen-rule reveal">
+        <ul class="zen-list reveal" style="margin-bottom: var(--content-gap);">
+            <li>Todo modelo clínico es un <span class="emphasis">mapa provisional</span></li>
+            <li>No hay modelo "correcto" — hay modelos <span class="emphasis">útiles para un propósito</span></li>
+            <li>Si falla: se revisa, no se defiende (humildad clínica)</li>
+        </ul>
+        <table class="zen-table reveal">
+            <thead><tr><th>Nivel</th><th>Nombre</th><th>Pregunta central</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Categorial</td><td>¿Qué TIENE?</td></tr>
+                <tr><td>2</td><td>Fenotípico</td><td>¿A qué SE PARECE?</td></tr>
+                <tr><td>3</td><td>Dimensional</td><td>¿DÓNDE está en el espectro?</td></tr>
+                <tr><td>4</td><td>Network</td><td>¿QUÉ causa QUÉ?</td></tr>
+                <tr><td>5</td><td>Sistemas Dinámicos</td><td>¿HACIA DÓNDE va?</td></tr>
+            </tbody>
+        </table>
+        <p class="citation reveal">Heinrichs DW (2025). POP. | Goldberg JF & Stahl SM (2024). Cambridge.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     NIVEL 1 — DIVIDER
+     ============================================================ -->
+<section class="slide slide-dark" data-section="nivel-1">
+    <div class="slide-content">
+        <span class="level-glyph reveal-slow">1</span>
+        <p class="section-label reveal">Nivel 1</p>
+        <h1 class="reveal" style="font-weight: 300;">Categorial</h1>
+        <hr class="zen-rule reveal">
+        <p class="reveal" style="font-style: italic; color: var(--text-on-dark-muted);">¿Qué TIENE la paciente?</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — LÓGICA CATEGORIAL
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-1">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 1 — Categorial</p>
+        <h2 class="reveal">La lógica categorial</h2>
+        <hr class="zen-rule reveal">
+        <ul class="zen-list reveal">
+            <li>DSM / CIE: el trastorno es una ENTIDAD discreta</li>
+            <li>Criterios = checklist. Umbral = diagnóstico. Tienes o no tienes.</li>
+            <li>Modelo mental: el trastorno es una "cosa" dentro del paciente</li>
+        </ul>
+        <div class="concept-card reveal" style="margin-top: var(--content-gap);">
+            <h3>Modelo normativo + Errores Prima Facie (Kind)</h3>
+            <ul class="zen-list">
+                <li>El psiquiatra opera con un modelo normativo de la mente sana</li>
+                <li>Las desviaciones = "errores prima facie" que activan la investigación</li>
+                <li>"Escucho voces que me dicen que me mate" = error prima facie</li>
+            </ul>
+        </div>
+        <p class="citation reveal">Kind A (2025). Caps. 4-5. | Fried EI (2026). JAMA Psychiatry.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — PATRÓN PROTOTÍPICO
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-1">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 1 — Categorial</p>
+        <h2 class="reveal">Reconocimiento de patrones prototípicos</h2>
+        <hr class="zen-rule reveal">
+        <p class="reveal" style="font-size: var(--small-size); color: var(--text-light); margin-bottom: var(--content-gap);">
+            Kind: una vez confirmados los síntomas, el diagnóstico opera por <em>reconocimiento de patrón</em> — el clínico compara contra prototipos. Para el experto, el Dx "se reconoce" casi automáticamente.
+        </p>
+        <table class="zen-table reveal">
+            <thead><tr><th>Dx</th><th>Código</th><th>Prototipo activado</th></tr></thead>
+            <tbody>
+                <tr><td>Psicosis NOS</td><td>F29</td><td>"Alucinaciones = psicosis"</td></tr>
+                <tr><td>TEPT crónico</td><td>F43.1</td><td>"Trauma + re-experimentación"</td></tr>
+                <tr><td>TOC</td><td>F42</td><td>"Rituales + obsesiones"</td></tr>
+                <tr><td>T. explosivo</td><td>F63.8</td><td>"Impulsividad + agresión"</td></tr>
+                <tr><td>TP inestable</td><td>F60.3</td><td>"Inestabilidad + autolesión"</td></tr>
+            </tbody>
+        </table>
+        <p class="highlight-box reveal" style="margin-top: var(--content-gap);">5 prototipos activados. 5 etiquetas. <strong>Ninguna explicación.</strong></p>
+        <p class="citation reveal">Kind A (2025). Cap. 7. | Goldberg JF & Stahl SM (2024). Cap. 2.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 7 — LÍMITES NIVEL 1
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-1">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 1 — Categorial</p>
+        <h2 class="reveal">Límites del Nivel 1</h2>
+        <hr class="zen-rule reveal">
+        <div class="two-col reveal">
+            <div>
+                <h3 style="font-size: var(--small-size); color: var(--sage); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5em;">Fortalezas</h3>
+                <ul class="zen-list">
+                    <li>Comunicación rápida entre clínicos</li>
+                    <li>Acceso a guías y evidencia de RCTs</li>
+                    <li>Base para decisiones administrativas</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="font-size: var(--small-size); color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5em;">Límites</h3>
+                <ul class="zen-list">
+                    <li>636,120 combinaciones para TEPT</li>
+                    <li>5 Dx en una paciente = la REGLA</li>
+                    <li>F29 = "no sabemos" disfrazado de Dx</li>
+                    <li>El Dx DESCRIBE, no EXPLICA</li>
+                </ul>
+            </div>
+        </div>
+        <div class="zen-quote reveal">
+            "El diagnóstico es un MARCADOR DE POSICIÓN. F29 permite acceder a la evidencia, pero no dice si las alucinaciones son psicóticas o disociativas."
+            <span class="attribution">— Heinrichs, POP (2025)</span>
+        </div>
+        <p class="citation reveal">Fried EI (2026). JAMA Psychiatry. | Galatzer-Levy & Bryant (2013). | Heinrichs (2025).</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     NIVEL 2 — DIVIDER
+     ============================================================ -->
+<section class="slide slide-dark" data-section="nivel-2">
+    <div class="slide-content">
+        <span class="level-glyph reveal-slow">2</span>
+        <p class="section-label reveal">Nivel 2</p>
+        <h1 class="reveal" style="font-weight: 300;">Fenotípico</h1>
+        <hr class="zen-rule reveal">
+        <p class="reveal" style="font-style: italic; color: var(--text-on-dark-muted);">¿A qué SE PARECE la paciente?</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 8 — LÓGICA FENOTÍPICA
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-2">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 2 — Fenotípico</p>
+        <h2 class="reveal">Más allá del checklist</h2>
+        <hr class="zen-rule reveal">
+        <div class="three-col reveal">
+            <div class="concept-card">
+                <h3>Dx basado en modelos (Kind)</h3>
+                <p>No es "marcar casillas" ni intuición pura. Es un proceso inferencial multinivel: comparar modelos teóricos con la presentación clínica.</p>
+            </div>
+            <div class="concept-card">
+                <h3>Guion de enfermedad</h3>
+                <p>El clínico experto piensa en patrones narrativos: condiciones habilitantes + fisiopatología + consecuencias clínicas. "Esto se parece a..."</p>
+            </div>
+            <div class="concept-card">
+                <h3>Proceso Dual (S1 / S2)</h3>
+                <p>System 1: reconocimiento rápido, automático. System 2: análisis deliberado. El experto usa S1 para hipótesis, S2 para verificar.</p>
+            </div>
+        </div>
+        <p class="citation reveal">Kind A (2025). Cap. 3. | Schmidt & Rikers (2007). Med Educ. | Croskerry P (2009). Acad Med.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9 — TRÍADA DE KIND
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-2">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 2 — Fenotípico</p>
+        <h2 class="reveal">La tríada del modelado</h2>
+        <hr class="zen-rule reveal">
+        <div class="reveal" style="display: flex; flex-direction: column; gap: var(--element-gap);">
+            <div class="concept-card" style="border-left-color: var(--accent-soft);">
+                <h3 style="color: var(--accent);">1. Construcción (Construal)</h3>
+                <p>Evocar el modelo teórico: "Conozco el modelo de TEPT complejo: trauma interpersonal repetido + desregulación + autoconcepto negativo + perturbación relacional"</p>
+            </div>
+            <div class="concept-card" style="border-left-color: var(--accent-soft);">
+                <h3 style="color: var(--accent);">2. Análisis</h3>
+                <p>Entender implicaciones: "Si es TEPT-C, las alucinaciones deberían ser congruentes con el contenido traumático y ligadas a estrés"</p>
+            </div>
+            <div class="concept-card" style="border-left-color: var(--accent-soft);">
+                <h3 style="color: var(--accent);">3. Comparación Modelo/Mundo</h3>
+                <p>Contrastar con la información real: "Las alucinaciones tienen onset ligado a estrés, insight preservado, contenido congruente → encaja con TEPT-C"</p>
+            </div>
+        </div>
+        <p class="citation reveal">Kind A (2025). Cap. 6: Construal, Analysis, Model/World Comparison.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 — PACIENTE NIVEL 2
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-2">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 2 — Fenotípico</p>
+        <h2 class="reveal">Tres modelos compiten</h2>
+        <hr class="zen-rule reveal">
+        <div class="three-col reveal">
+            <div class="concept-card" style="border-left-color: var(--accent);">
+                <h3 style="color: var(--accent);">Modelo A: Psicosis crónica</h3>
+                <p>Alucinaciones multimodales 20+ años, voces imperativas → ¿esquizofrenia? Demás Dx son comorbilidades</p>
+            </div>
+            <div class="concept-card" style="border-left-color: var(--sage);">
+                <h3>Modelo B: Trauma complejo</h3>
+                <p>Trauma severo, onset ligado a estrés, insight preservado, contenido congruente → alucinaciones disociativas</p>
+            </div>
+            <div class="concept-card" style="border-left-color: var(--text-muted);">
+                <h3 style="color: var(--text-muted);">Modelo C: TP severo</h3>
+                <p>Inestabilidad emocional, autolesión, IS crónica, impulsividad → personalidad como organizador</p>
+            </div>
+        </div>
+        <div class="concept-card reveal" style="margin-top: var(--content-gap); border-left-color: var(--accent-soft);">
+            <h3 style="color: var(--accent);">Modelos proposicionales + Representación del problema</h3>
+            <p>"Voces egodistónicas" + "contenido congruente" + "insight" → favorecen Modelo B sobre Modelo A. La representación del problema cambia con cada nueva pieza de información.</p>
+        </div>
+        <p class="citation reveal">Kind A (2025). Caps. 4, 6. | Bordage G (1994). Acad Med.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 — SESGOS
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-2">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 2 — Fenotípico</p>
+        <h2 class="reveal">Sesgos cognitivos y diagnóstico de sospecha</h2>
+        <hr class="zen-rule reveal">
+        <ul class="zen-list reveal">
+            <li><span class="emphasis">Anchoring:</span> el primer Dx (F29) sesga todo lo que sigue</li>
+            <li><span class="emphasis">Cierre prematuro:</span> si el Modelo A "encaja suficiente", dejas de buscar</li>
+            <li><span class="emphasis">Disponibilidad:</span> si tu último paciente era esquizofrénico, ves psicosis en todos</li>
+        </ul>
+        <div class="concept-card reveal" style="margin-top: var(--content-gap);">
+            <h3 style="color: var(--accent);">Diagnóstico de sospecha (Kind)</h3>
+            <ul class="zen-list">
+                <li>Cuando varios modelos encajan igual, la incertidumbre NO paraliza</li>
+                <li>Se elige basándose en costos y beneficios del tratamiento</li>
+                <li>Pragmatismo: priorizar bienestar clínico sobre pureza teórica</li>
+                <li>Pero: el Dx de sospecha se REVISA con información nueva</li>
+            </ul>
+        </div>
+        <p class="citation reveal">Kind A (2025). Cap. 8. | Croskerry P (2009). Acad Med. | Goldberg & Stahl (2024). Cap. 6.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     NIVEL 3 — DIVIDER
+     ============================================================ -->
+<section class="slide slide-dark" data-section="nivel-3">
+    <div class="slide-content">
+        <span class="level-glyph reveal-slow">3</span>
+        <p class="section-label reveal">Nivel 3</p>
+        <h1 class="reveal" style="font-weight: 300;">Dimensional</h1>
+        <hr class="zen-rule reveal">
+        <p class="reveal" style="font-style: italic; color: var(--text-on-dark-muted);">¿DÓNDE está en el espectro?</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 — LÓGICA DIMENSIONAL
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-3">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 3 — Dimensional</p>
+        <h2 class="reveal">Espectros, no cajas</h2>
+        <hr class="zen-rule reveal">
+        <ul class="zen-list reveal">
+            <li>No hay línea mágica entre "tiene TEPT" y "no tiene TEPT"</li>
+            <li>Los fenómenos psiquiátricos son CONTINUOS</li>
+            <li><span class="emphasis">HiTOP:</span> jerarquía dimensional (internalizing, externalizing, thought disorder...)</li>
+            <li><span class="emphasis">RDoC:</span> dominios funcionales transdiagnósticos (arousal, reward, social, cognitive)</li>
+            <li>Modelo mental: la paciente tiene una POSICIÓN en un espacio multidimensional</li>
+        </ul>
+        <div class="concept-card reveal" style="margin-top: var(--content-gap);">
+            <h3 style="color: var(--sage);">Modelado cualitativo y constitutivo (Kind)</h3>
+            <ul class="zen-list">
+                <li>La psiquiatría carece de modelos causales completos</li>
+                <li>Usamos modelos cualitativos (lenguaje) y constitutivos (organización del sistema)</li>
+                <li>HiTOP y RDoC son constitutivos: describen ORGANIZACIÓN, no causa</li>
+            </ul>
+        </div>
+        <p class="citation reveal">Kind A (2025). Cap. 5. | Kotov et al. (2017). HiTOP. | Cuthbert & Insel (2013). RDoC.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 13 — HiTOP
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-3">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 3 — Dimensional</p>
+        <h2 class="reveal">La paciente en HiTOP: un perfil, no 5 cajas</h2>
+        <hr class="zen-rule reveal">
+        <div class="two-col reveal">
+            <div>
+                <!-- HiTOP bars -->
+                <div class="hitop-domain">
+                    <div class="hitop-domain-label">Internalizing / Distress (dominante)</div>
+                    <div class="hitop-item"><span class="hitop-item-label">PTSD/Trauma</span><div class="hitop-bar-bg"><div class="hitop-bar-fill high" style="width:90%"></div></div><span class="hitop-score">9/10</span></div>
+                    <div class="hitop-item"><span class="hitop-item-label">Depression</span><div class="hitop-bar-bg"><div class="hitop-bar-fill" style="width:70%"></div></div><span class="hitop-score">7/10</span></div>
+                    <div class="hitop-item"><span class="hitop-item-label">Suicidality</span><div class="hitop-bar-bg"><div class="hitop-bar-fill high" style="width:80%"></div></div><span class="hitop-score">8/10</span></div>
+                    <div class="hitop-item"><span class="hitop-item-label">Anxiety</span><div class="hitop-bar-bg"><div class="hitop-bar-fill" style="width:60%"></div></div><span class="hitop-score">6/10</span></div>
+                </div>
+                <div class="hitop-domain">
+                    <div class="hitop-domain-label">Thought Disorder</div>
+                    <div class="hitop-item"><span class="hitop-item-label">Visual halluc.</span><div class="hitop-bar-bg"><div class="hitop-bar-fill high" style="width:80%"></div></div><span class="hitop-score">8/10</span></div>
+                    <div class="hitop-item"><span class="hitop-item-label">Auditory halluc.</span><div class="hitop-bar-bg"><div class="hitop-bar-fill high" style="width:80%"></div></div><span class="hitop-score">8/10</span></div>
+                    <div class="hitop-item"><span class="hitop-item-label">Dissociation</span><div class="hitop-bar-bg"><div class="hitop-bar-fill" style="width:60%"></div></div><span class="hitop-score">6/10</span></div>
+                </div>
+                <div class="hitop-domain">
+                    <div class="hitop-domain-label">Externalizing / Disinhibited</div>
+                    <div class="hitop-item"><span class="hitop-item-label">Impulsivity</span><div class="hitop-bar-bg"><div class="hitop-bar-fill high" style="width:80%"></div></div><span class="hitop-score">8/10</span></div>
+                    <div class="hitop-item"><span class="hitop-item-label">Aggression</span><div class="hitop-bar-bg"><div class="hitop-bar-fill" style="width:70%"></div></div><span class="hitop-score">7/10</span></div>
+                </div>
+                <div class="hitop-domain">
+                    <div class="hitop-domain-label">Compulsivity</div>
+                    <div class="hitop-item"><span class="hitop-item-label">Washing</span><div class="hitop-bar-bg"><div class="hitop-bar-fill high" style="width:80%"></div></div><span class="hitop-score">8/10</span></div>
+                </div>
+                <div class="hitop-domain">
+                    <div class="hitop-domain-label">Detachment</div>
+                    <div class="hitop-item"><span class="hitop-item-label">Withdrawal</span><div class="hitop-bar-bg"><div class="hitop-bar-fill" style="width:60%"></div></div><span class="hitop-score">6/10</span></div>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <p style="font-size: var(--body-size); color: var(--text-light); line-height: 1.7;">
+                    Ya no son 5 diagnósticos separados.<br>
+                    Es <span class="emphasis">un perfil multidimensional</span>.<br><br>
+                    El eje central: <span class="emphasis">trauma complejo</span> organiza la mayoría de la psicopatología.<br><br>
+                    Pregunta que el Nivel 1 no podía:<br>
+                    ¿las alucinaciones son Thought Disorder primario o Internalizing/Distress (disociativo)?
+                </p>
+            </div>
+        </div>
+        <p class="citation reveal">Kotov et al. (2017). | Caspi et al. (2014): The p factor. | Cloitre et al. (2013): ICD-11 Complex PTSD.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 14 — RDoC
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-3">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 3 — Dimensional</p>
+        <h2 class="reveal">La paciente en RDoC</h2>
+        <hr class="zen-rule reveal">
+        <table class="zen-table reveal">
+            <thead><tr><th>Dominio RDoC</th><th>Qué vemos</th></tr></thead>
+            <tbody>
+                <tr><td><span class="emphasis">Negative Valence (dom.)</span></td><td>Miedo condicionado, amenaza sostenida, duelo no resuelto, frustración</td></tr>
+                <tr><td>Positive Valence</td><td>Anhedonia parcial, muerte = "alivio", motivación solo extrínseca</td></tr>
+                <tr><td>Cognitive Systems</td><td>Hiperprosexia, rumiación, intrusiones, alucinaciones multimodales</td></tr>
+                <tr><td>Social Processes</td><td>Autoconcepto negativo ("soy una traba"), apego ansioso, aislamiento</td></tr>
+                <tr><td>Arousal/Regulatory</td><td>Hiperactivación crónica, insomnio (3h), rituales = regulador fallido</td></tr>
+            </tbody>
+        </table>
+        <p class="highlight-box reveal" style="margin-top: var(--content-gap);">
+            Los rituales no son "TOC primario" — son <strong>regulación de arousal</strong>.<br>
+            La pregunta cambia: no "¿qué antipsicótico para F29?" sino "¿cómo reducimos la activación crónica del sistema de amenaza?"
+        </p>
+        <p class="citation reveal">Cuthbert & Insel (2013). BMC Medicine. | Insel et al. (2010). Am J Psychiatry.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 15 — PLURALISMO
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-3">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 3 — Dimensional</p>
+        <h2 class="reveal">Pluralismo de formulaciones</h2>
+        <hr class="zen-rule reveal">
+        <table class="zen-table reveal">
+            <thead><tr><th>Formulación</th><th>Qué dice</th><th>Qué interviene</th></tr></thead>
+            <tbody>
+                <tr><td>Biológica</td><td>Desregulación DA/5HT. Sensibilización eje HPA</td><td>Antipsicótico + ISRS + estabilizador de sueño</td></tr>
+                <tr><td>Biopsicosocial</td><td>Bio: vulnerabilidad + sensibilización. Psico: esquemas de culpa. Social: pobreza, violencia</td><td>Fármaco + psicoterapia + intervención social</td></tr>
+                <tr><td>HiTOP</td><td>Perfil: Distress alto + Thought Disorder + Disinhibition</td><td>Intervenir por dominio, no por etiqueta</td></tr>
+                <tr><td>RDoC</td><td>Neg. Valence dominante. Arousal desregulado</td><td>Regulación de amenaza + arousal + autoconcepto</td></tr>
+            </tbody>
+        </table>
+        <div class="zen-quote reveal">
+            "Pluralismo DIRIGIDO — integrar SOLO los factores que justifican pragmáticamente una intervención útil para ESE individuo. No es eclecticismo vacío."
+            <span class="attribution">— Heinrichs, POP (2025)</span>
+        </div>
+        <p class="citation reveal">Heinrichs (2025). | Engel GL (1977). | Goldberg & Stahl (2024). Cap. 7.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     NIVEL 4 — DIVIDER
+     ============================================================ -->
+<section class="slide slide-dark" data-section="nivel-4">
+    <div class="slide-content">
+        <span class="level-glyph reveal-slow">4</span>
+        <p class="section-label reveal">Nivel 4</p>
+        <h1 class="reveal" style="font-weight: 300;">Network</h1>
+        <hr class="zen-rule reveal">
+        <p class="reveal" style="font-style: italic; color: var(--text-on-dark-muted);">¿QUÉ causa QUÉ en la paciente?</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 17 — LÓGICA NETWORK
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-4">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 4 — Network</p>
+        <h2 class="reveal">Síntomas como agentes causales</h2>
+        <hr class="zen-rule reveal">
+        <ul class="zen-list reveal" style="margin-bottom: var(--content-gap);">
+            <li>Los síntomas no son indicadores pasivos de una enfermedad latente</li>
+            <li>Los síntomas <span class="emphasis">se causan entre sí</span></li>
+            <li>Insomnio → hiperactivación → voces → IS → desesperanza → insomnio</li>
+            <li>El trastorno ES la red — no hay "cosa" detrás de los síntomas</li>
+        </ul>
+        <div class="two-col reveal">
+            <div class="concept-card" style="border-left-color: var(--text-muted);">
+                <h3 style="color: var(--text-muted);">Modelo latente (CIE)</h3>
+                <p>[TEPT] [Psicosis] [TOC]<br>5 enfermedades separadas<br>→ 5 protocolos de tratamiento</p>
+            </div>
+            <div class="concept-card" style="border-left-color: var(--sage);">
+                <h3>Modelo Network</h3>
+                <p>Trauma → Hiperactivación ↔ Insomnio<br>Rituales ↔ Desregulación<br>→ UN sistema interconectado</p>
+            </div>
+        </div>
+        <p class="citation reveal">Borsboom D (2017). World Psychiatry. | Cramer et al. (2010). Behav Res Methods.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 18 — FRIED HPC
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-4">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 4 — Network</p>
+        <h2 class="reveal">Clusters Homeostáticos de Propiedades</h2>
+        <hr class="zen-rule reveal">
+        <div class="zen-quote reveal">
+            "Los trastornos mentales son como ESPECIES, no como elementos químicos."
+            <span class="attribution">— Fried, JAMA Psychiatry 2026</span>
+        </div>
+        <ul class="zen-list reveal">
+            <li>No hay "esencia" de la psicosis ni del TEPT (contra el esencialismo)</li>
+            <li>Propiedades co-ocurren porque la presencia de unas <span class="emphasis">favorece</span> la de otras</li>
+            <li>Las categorías diagnósticas no se descubren — se superponen sobre el paisaje</li>
+            <li>Heterogeneidad y comorbilidad = consecuencias naturales</li>
+            <li>Esta paciente no tiene 5 enfermedades — tiene un <span class="emphasis">cluster organizado por trauma</span></li>
+        </ul>
+        <div class="concept-card reveal" style="margin-top: var(--element-gap);">
+            <h3 style="color: var(--accent);">Mental Health Atlas (5 pasos)</h3>
+            <p>1. Datos biopsicosociales → 2. Mapeo de variables (redes) → 3. Mapeo de personas (point cloud) → 4. Zoom in (subgrupos) → 5. Tiempo (transiciones, tipping points)</p>
+        </div>
+        <p class="citation reveal">Fried EI (2026). JAMA Psychiatry. | Boyd R (1991). HPC kinds.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 19 — PACIENTE NIVEL 4 (LA RED)
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-4">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 4 — Network</p>
+        <h2 class="reveal">La paciente: la red</h2>
+        <hr class="zen-rule reveal">
+        <div class="two-col reveal">
+            <div class="network-diagram">       [TRAUMA COMPLEJO]
+              |
+              v
+   HIPERACTIVACIÓN ───── INSOMNIO (3h)
+       |        |              |
+       v        v              v
+  INTRUSIONES  RITUALES   DESREGULACIÓN
+  TRAUMÁTICAS  DE LAVADO    EMOCIONAL
+       |       (3h/día)        |
+       v           \           v
+  ALUCINACIONES     \───  IMPULSIVIDAD
+  (visuales 20+a,             |
+   auditivas)                 v
+       |              AUTOLESIÓN / IS
+       v
+  VOCES IMPERATIVAS
+       |
+       v
+  DESESPERANZA ────── AISLAMIENTO</div>
+            <div style="display: flex; flex-direction: column; gap: var(--element-gap); justify-content: center;">
+                <div class="concept-card" style="border-left-color: var(--accent);">
+                    <h3 style="color: var(--accent);">Nodo organizador</h3>
+                    <p>Trauma complejo — todo emana de ahí</p>
+                </div>
+                <div class="concept-card" style="border-left-color: var(--sage-soft);">
+                    <h3>Loop 1</h3>
+                    <p>Hiperactivación → insomnio → desregulación → rituales → más hiperactivación</p>
+                </div>
+                <div class="concept-card" style="border-left-color: var(--sage-soft);">
+                    <h3>Loop 2</h3>
+                    <p>Voces → IS → desesperanza → aislamiento → más voces</p>
+                </div>
+                <div class="concept-card" style="border-left-color: var(--accent);">
+                    <h3 style="color: var(--accent);">Intervención</h3>
+                    <p>Estabilizar hiperactivación (nodo puente) ANTES de procesar trauma</p>
+                </div>
+            </div>
+        </div>
+        <p class="citation reveal">Robinaugh et al. (2020). Psychol Med. | McNally et al. (2015). Clin Psychol Sci.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 20 — POP FORMULACIÓN
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-4">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 4 — Network</p>
+        <h2 class="reveal">POP: la formulación como red de propensiones</h2>
+        <hr class="zen-rule reveal">
+        <div class="three-col reveal">
+            <div class="concept-card" style="border-left-color: var(--accent);">
+                <h3 style="color: var(--accent);">Propensiones, no causas</h3>
+                <p>Si estrés interpersonal → tiende a hiperactivación crónica. Si hiperactivación sin regulación → tiende a experiencias perceptivas. Condicional, no determinista. Respeta la agencia humana.</p>
+            </div>
+            <div class="concept-card" style="border-left-color: var(--sage);">
+                <h3>Bidireccionalidad</h3>
+                <p><em>Hacia atrás:</em> cómo las propensiones generaron el sufrimiento actual.<br><br><em>Hacia adelante:</em> ¿qué puntos de intervención? ¿qué pasará si tratamos X?</p>
+            </div>
+            <div class="concept-card" style="border-left-color: var(--text-muted);">
+                <h3 style="color: var(--text-muted);">Poda (Pruning)</h3>
+                <p>Epistemológica: ¿compatible con la ciencia?<br>Pragmática: ¿factible en el entorno?<br>Negociada: ¿aceptable para sus valores?<br>Ética: ¿qué pasa si estamos equivocados?</p>
+            </div>
+        </div>
+        <p class="citation reveal">Heinrichs DW (2025). Caps. propensiones, bidireccionalidad, poda. | Goldberg & Stahl (2024). Cap. 8.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     NIVEL 5 — DIVIDER
+     ============================================================ -->
+<section class="slide slide-dark" data-section="nivel-5">
+    <div class="slide-content">
+        <span class="level-glyph reveal-slow">5</span>
+        <p class="section-label reveal">Nivel 5</p>
+        <h1 class="reveal" style="font-weight: 300;">Sistemas Dinámicos</h1>
+        <hr class="zen-rule reveal">
+        <p class="reveal" style="font-style: italic; color: var(--text-on-dark-muted);">¿HACIA DÓNDE va la paciente?</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 22 — LÓGICA DINÁMICA
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-5">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 5 — Sistemas Dinámicos</p>
+        <h2 class="reveal">Paisaje de energía y atractores</h2>
+        <hr class="zen-rule reveal">
+        <ul class="zen-list reveal">
+            <li>La paciente no está en un estado fijo — está en un <span class="emphasis">paisaje de energía</span></li>
+            <li>Los trastornos son <span class="emphasis">estados atractores</span>: cuencas donde el sistema "cae"</li>
+            <li>La salud también es un atractor — con cuenca de estabilidad (safe operating space)</li>
+            <li>La transición entre estados no es lineal — es un <span class="emphasis">tipping point</span></li>
+        </ul>
+        <div class="network-diagram reveal" style="text-align: center; margin-top: var(--content-gap);">
+  Estabilidad            Crisis              Cronicidad
+  (con soporte)       (tipping point)     (atractor profundo)
+     __                                       ____
+    /  \               barrera               /    \
+   /    \             __|__                 /      \
+  /      \     ___   /     \    ___       /        \
+          \___/   \_/       \__/   \____/
+
+  [Paciente al borde]              [Cada crisis profundiza
+                                     la cuenca patológica]</div>
+        <p class="citation reveal">Olthof et al. (2023). Psychol Methods. | Scheffer et al. (2009). Nature.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 24 — EARLY WARNING
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-5">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 5 — Sistemas Dinámicos</p>
+        <h2 class="reveal">Early Warning Signals</h2>
+        <hr class="zen-rule reveal">
+        <div class="two-col reveal">
+            <div style="display: flex; flex-direction: column; gap: var(--element-gap);">
+                <div class="concept-card" style="border-left-color: var(--accent);">
+                    <h3 style="color: var(--accent);">Critical slowing down</h3>
+                    <p>Recuperación más lenta de perturbaciones</p>
+                </div>
+                <div class="concept-card" style="border-left-color: var(--accent-soft);">
+                    <h3 style="color: var(--accent);">Aumento de autocorrelación</h3>
+                    <p>Rigidez del estado (hoy predice mañana)</p>
+                </div>
+                <div class="concept-card" style="border-left-color: var(--accent-soft);">
+                    <h3 style="color: var(--accent);">Aumento de varianza</h3>
+                    <p>Oscilaciones más amplias</p>
+                </div>
+                <div class="concept-card" style="border-left-color: var(--accent-soft);">
+                    <h3 style="color: var(--accent);">Flickering</h3>
+                    <p>Alternancia rápida entre estados</p>
+                </div>
+            </div>
+            <div class="concept-card" style="border-left-color: var(--sage); display: flex; flex-direction: column; justify-content: center;">
+                <h3>En la paciente</h3>
+                <ul class="zen-list">
+                    <li>Voces nuevas (síntoma emergente) = aumento de varianza</li>
+                    <li>IS pasó de latente a activa con plan = el sistema cruza umbrales</li>
+                    <li>Rituales escalaron a 3h de ducha = critical slowing down</li>
+                </ul>
+                <p style="font-size: var(--small-size); color: var(--accent); font-weight: 500; margin-top: var(--element-gap);">El sistema está en transición. Early warning de shift a atractor más profundo.</p>
+            </div>
+        </div>
+        <p class="citation reveal">Scheffer et al. (2009). Nature. | van de Leemput et al. (2014). PNAS. | Wichers et al. (2016).</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 25 — TEMPORALIDAD RECURSIVA
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-5">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 5 — Sistemas Dinámicos</p>
+        <h2 class="reveal">Temporalidad recursiva: S(t-1)</h2>
+        <hr class="zen-rule reveal">
+        <div class="zen-quote reveal" style="margin-bottom: var(--content-gap);">
+            "El síntoma de ayer es la vulnerabilidad de hoy"
+        </div>
+        <div class="reveal" style="display: flex; flex-direction: column; gap: var(--element-gap); margin-bottom: var(--content-gap);">
+            <div class="phase-step"><span class="phase-label">Infancia</span><span class="phase-desc">Trauma interpersonal → sensibilización del sistema de amenaza</span></div>
+            <div class="phase-step"><span class="phase-label">Adolescencia</span><span class="phase-desc">Pérdida parental → duelo no resuelto, colapso de soporte</span></div>
+            <div class="phase-step"><span class="phase-label">Adultez joven</span><span class="phase-desc">Onset de alucinaciones visuales → nuevo loop en la red</span></div>
+            <div class="phase-step"><span class="phase-label">Actualidad</span><span class="phase-desc">Acumulación de décadas → voces imperativas, IS con plan</span></div>
+        </div>
+        <div class="three-col reveal">
+            <div style="text-align: center;"><p class="emphasis" style="font-size: var(--small-size);">Kindling (Post)</p><p style="font-size: var(--caption-size); color: var(--text-light);">Cada crisis baja el umbral para la siguiente</p></div>
+            <div style="text-align: center;"><p class="emphasis" style="font-size: var(--small-size);">Neuroprogresión (Kapczinski)</p><p style="font-size: var(--caption-size); color: var(--text-light);">La red se complejiza con cada recurrencia</p></div>
+            <div style="text-align: center;"><p class="emphasis" style="font-size: var(--small-size);">Carga alostática (McEwen)</p><p style="font-size: var(--caption-size); color: var(--text-light);">Hiperactivación crónica → consecuencias somáticas</p></div>
+        </div>
+        <p class="citation reveal">Post RM (1992). | Kapczinski et al. (2008). | McEwen BS (2003).</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 26 — PACIENTE NIVEL 5
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-5">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 5 — Sistemas Dinámicos</p>
+        <h2 class="reveal">Intervención por fases</h2>
+        <hr class="zen-rule reveal">
+        <div class="two-col reveal" style="margin-bottom: var(--content-gap);">
+            <div class="concept-card" style="border-left-color: var(--accent);">
+                <h3 style="color: var(--accent);">Safe Operating Space</h3>
+                <p>Sueño >5h + soporte relacional + voces manejables + sin acceso a medios letales.<br><br>Fuera de ese espacio: riesgo de transición irreversible.</p>
+            </div>
+            <div class="concept-card" style="border-left-color: var(--text-muted);">
+                <h3 style="color: var(--text-muted);">Trayectoria</h3>
+                <p>Décadas de acumulación sin intervención → cuenca de estabilidad casi inexistente.<br><br>CERO periodos de seguridad sostenida en la vida adulta.</p>
+            </div>
+        </div>
+        <div class="reveal" style="display: flex; flex-direction: column; gap: var(--element-gap);">
+            <div class="phase-step"><span class="phase-label" style="color: var(--accent);">Fase 1 — Estabilizar</span><span class="phase-desc">Restaurar cuenca (sueño, seguridad, arousal)</span></div>
+            <div class="phase-step"><span class="phase-label" style="color: var(--accent);">Fase 2 — Procesar</span><span class="phase-desc">Trauma SOLO cuando cuenca suficientemente profunda</span></div>
+            <div class="phase-step"><span class="phase-label" style="color: var(--accent);">Fase 3 — Integrar</span><span class="phase-desc">Reconstrucción autoconcepto y conexión social</span></div>
+            <div class="phase-step"><span class="phase-label" style="color: var(--sage);">Monitorear</span><span class="phase-desc">Early warnings (voces, nuevos síntomas, sueño)</span></div>
+        </div>
+        <p class="citation reveal">Fried EI (2026): safe operating space. | Cloitre et al. (2011). | Goldberg & Stahl (2024). Cap. 9.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 27 — EL NIVEL 5 INTEGRA
+     ============================================================ -->
+<section class="slide slide-warm" data-section="nivel-5">
+    <div class="slide-content">
+        <p class="section-label reveal">Nivel 5 — Sistemas Dinámicos</p>
+        <h2 class="reveal">El Nivel 5 no reemplaza — integra</h2>
+        <hr class="zen-rule reveal">
+        <div class="reveal" style="display: flex; flex-direction: column; gap: 0; margin-bottom: var(--content-gap);">
+            <div class="level-row"><span class="level-num">1</span><span class="level-name">Categorial</span><span class="level-desc">da el lenguaje compartido (F43.1, F29)</span></div>
+            <div class="level-row"><span class="level-num">2</span><span class="level-name">Fenotípico</span><span class="level-desc">da la intuición clínica (fenotipo disociativo > psicótico)</span></div>
+            <div class="level-row"><span class="level-num">3</span><span class="level-name">Dimensional</span><span class="level-desc">da la posición dimensional (Internalizing/Distress dominante)</span></div>
+            <div class="level-row"><span class="level-num">4</span><span class="level-name">Network</span><span class="level-desc">da la estructura de la red (hiperactivación como nodo puente)</span></div>
+            <div class="level-row"><span class="level-num">5</span><span class="level-name">Dinámico</span><span class="level-desc">da la PELÍCULA — trayectoria, tipping points, fases</span></div>
+        </div>
+        <p class="highlight-box reveal">Cada nivel es una capa de <strong>resolución</strong>. El clínico experto navega entre niveles según la pregunta clínica.</p>
+        <p class="citation reveal">Olthof et al. (2023). Psychol Methods. | Fried EI (2026). JAMA Psychiatry.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     CIERRE — DIVIDER
+     ============================================================ -->
+<section class="slide slide-dark" data-section="cierre">
+    <div class="slide-content">
+        <h1 class="reveal" style="font-weight: 300;">Cierre</h1>
+        <hr class="zen-rule reveal">
+        <p class="reveal" style="font-style: italic; color: var(--text-on-dark-muted);">La formulación como síntesis</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 28 — FORMULACIÓN COMO SÍNTESIS
+     ============================================================ -->
+<section class="slide slide-warm" data-section="cierre">
+    <div class="slide-content">
+        <p class="section-label reveal">Cierre</p>
+        <h2 class="reveal">La formulación del caso como síntesis</h2>
+        <hr class="zen-rule reveal">
+        <p class="reveal" style="font-size: var(--body-size); color: var(--text-light); margin-bottom: var(--content-gap);">
+            Kind (Modelo 9): La formulación NO es una historia narrativa — es el <em>output directo del proceso de modelado</em>. Presenta qué modelos fueron seleccionados y la justificación probatoria.
+        </p>
+        <table class="zen-table reveal">
+            <thead><tr><th>Nivel</th><th>Contribución a la formulación</th></tr></thead>
+            <tbody>
+                <tr><td>Categorial</td><td>Dx de trabajo: TEPT-C (ICD-11). F29 como placeholder</td></tr>
+                <tr><td>Fenotípico</td><td>Fenotipo disociativo > psicótico (tríada Kind)</td></tr>
+                <tr><td>Dimensional</td><td>Perfil: distress + thought disorder + disinhibition</td></tr>
+                <tr><td>Network</td><td>Trauma → hiperactivación → todo lo demás (loops)</td></tr>
+                <tr><td>Dinámico</td><td>Décadas de acumulación, tipping point, fases</td></tr>
+            </tbody>
+        </table>
+        <p class="citation reveal">Kind A (2025). Cap. 9. | Heinrichs DW (2025).</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 29 — NAVEGACIÓN
+     ============================================================ -->
+<section class="slide slide-warm" data-section="cierre">
+    <div class="slide-content">
+        <p class="section-label reveal">Cierre</p>
+        <h2 class="reveal">El razonamiento clínico como navegación</h2>
+        <hr class="zen-rule reveal">
+        <table class="zen-table reveal">
+            <thead><tr><th>Nivel</th><th>Qué hace</th><th>Analogía</th></tr></thead>
+            <tbody>
+                <tr><td>1 — Categorial</td><td>Clasifica</td><td>Etiqueta en una caja</td></tr>
+                <tr><td>2 — Fenotípico</td><td>Modela e infiere</td><td>Comparar mapas con el territorio</td></tr>
+                <tr><td>3 — Dimensional</td><td>Ubica en espacio</td><td>Pin en mapa multidimensional</td></tr>
+                <tr><td>4 — Network</td><td>Identifica conexiones</td><td>Ver el cableado eléctrico</td></tr>
+                <tr><td>5 — Dinámico</td><td>Anticipa trayectorias</td><td>Leer el clima, no el termómetro</td></tr>
+            </tbody>
+        </table>
+        <div class="zen-quote reveal" style="text-align: center; border-left: none; background: none; padding: var(--content-gap) 0;">
+            La expertise no es saber más — es tener mayor <em>resolución</em> para discriminar.
+        </div>
+        <p class="citation reveal">Flores-Cohaila JA (2026). Diagnostic reasoning as navigation through semantic space.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 30 — POP INTEGRADOR
+     ============================================================ -->
+<section class="slide slide-warm" data-section="cierre">
+    <div class="slide-content">
+        <p class="section-label reveal">Cierre</p>
+        <h2 class="reveal">El modelo POP integra los 5 niveles</h2>
+        <hr class="zen-rule reveal">
+        <div class="two-col reveal" style="margin-bottom: var(--content-gap);">
+            <div class="concept-card" style="border-left-color: var(--accent);">
+                <h3 style="color: var(--accent);">Modelo POP de esta paciente</h3>
+                <p>Si estrés interpersonal → hiperactivación crónica (sistema sensibilizado por trauma temprano).<br><br>Si hiperactivación sin regulación → experiencias perceptivas anómalas + desregulación emocional.<br><br>Si voces imperativas + desesperanza → IS activa.</p>
+            </div>
+            <div>
+                <div class="concept-card" style="border-left-color: var(--sage); margin-bottom: var(--element-gap);">
+                    <h3>Intervención POP</h3>
+                    <p>Fase 1: Estabilizar (sueño, seguridad, arousal)<br>Fase 2: Procesar trauma (cuando cuenca estable)<br>Objetivo: que ella deje de ser "una traba" — en SUS términos</p>
+                </div>
+                <div class="concept-card" style="border-left-color: var(--text-muted);">
+                    <h3 style="color: var(--text-muted);">Poda aplicada</h3>
+                    <p>Epistemológica: TEPT-C > 5 Dx separados<br>Pragmática: CSMC tiene limitaciones<br>Negociada: ella quiere funcionar, no "curarse"<br>Ética: si es psicosis primaria → plan no daña</p>
+                </div>
+            </div>
+        </div>
+        <p class="citation reveal">Heinrichs DW (2025). POP. | Cloitre et al. (2011).</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 31 — MENSAJE FINAL
+     ============================================================ -->
+<section class="slide slide-dark" data-section="cierre">
+    <div class="slide-content" style="align-items: center; text-align: center;">
+        <h2 class="reveal-dramatic" style="font-weight: 300; line-height: 1.5; max-width: min(85vw, 800px);">
+            "No tratamos trastornos.<br>
+            Tratamos personas que sufren<br>
+            en contextos específicos,<br>
+            con redes de propensiones únicas,<br>
+            en paisajes dinámicos<br>
+            que cambian con el tiempo."
+        </h2>
+        <hr class="zen-rule reveal-dramatic">
+        <p class="reveal-dramatic" style="color: var(--accent-soft); font-size: var(--h3-size); font-weight: 500;">El diagnóstico es donde empezamos. No es donde nos quedamos.</p>
+        <p class="reveal-dramatic" style="color: var(--text-on-dark-muted); font-size: var(--body-size); margin-top: var(--content-gap);">
+            Esta paciente no necesita 5 tratamientos para 5 diagnósticos.<br>
+            Necesita <em>un modelo</em> que entienda su sistema.
+        </p>
+        <div class="reveal-dramatic" style="margin-top: var(--content-gap);">
+            <p style="color: var(--accent-soft); font-size: var(--small-size); letter-spacing: 0.15em;">Dr. Javier Flores-Cohaila &middot; Yachay &middot; 2026</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 32 — FUENTES
+     ============================================================ -->
+<section class="slide slide-warm" data-section="fuentes">
+    <div class="slide-content">
+        <p class="section-label reveal">Referencias</p>
+        <h2 class="reveal">Fuentes principales</h2>
+        <hr class="zen-rule reveal">
+        <div class="two-col reveal">
+            <div>
+                <h3 style="font-size: var(--small-size); color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5em;">Libros clave</h3>
+                <ul class="zen-list" style="margin-bottom: var(--content-gap);">
+                    <li style="font-size: var(--small-size);">Kind A (2025). <em>How Does the Psychiatrist Know?</em> transcript Verlag.</li>
+                    <li style="font-size: var(--small-size);">Heinrichs DW (2025). <em>How Psychiatrists Make Decisions.</em> Oxford University Press.</li>
+                    <li style="font-size: var(--small-size);">Goldberg JF & Stahl SM (2024). <em>Clinical Reasoning and Decision-making in Psychiatry.</em> Cambridge.</li>
+                </ul>
+                <h3 style="font-size: var(--small-size); color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5em;">Papers fundamentales</h3>
+                <ul class="zen-list">
+                    <li style="font-size: var(--caption-size);">Fried EI (2026). JAMA Psychiatry.</li>
+                    <li style="font-size: var(--caption-size);">Borsboom D (2017). World Psychiatry, 16(1).</li>
+                    <li style="font-size: var(--caption-size);">Kotov R et al. (2017). J Abnorm Psychol, 126(4).</li>
+                    <li style="font-size: var(--caption-size);">Cuthbert BN & Insel TR (2013). BMC Medicine, 11.</li>
+                    <li style="font-size: var(--caption-size);">Olthof M et al. (2023). Psychological Methods.</li>
+                    <li style="font-size: var(--caption-size);">Scheffer M et al. (2009). Nature, 461.</li>
+                </ul>
+            </div>
+            <div>
+                <ul class="zen-list">
+                    <li style="font-size: var(--caption-size);">van de Leemput IA et al. (2014). PNAS, 111(1).</li>
+                    <li style="font-size: var(--caption-size);">Cloitre M et al. (2011). J Trauma Stress, 24(6).</li>
+                    <li style="font-size: var(--caption-size);">Caspi A et al. (2014). Clin Psychol Sci, 2(2).</li>
+                    <li style="font-size: var(--caption-size);">Galatzer-Levy IR & Bryant RA (2013). Perspect Psychol Sci, 8(6).</li>
+                    <li style="font-size: var(--caption-size);">Croskerry P (2009). Acad Med, 84(11).</li>
+                    <li style="font-size: var(--caption-size);">Post RM (1992). J Clin Psychiatry.</li>
+                    <li style="font-size: var(--caption-size);">McEwen BS (2003). Ann NY Acad Sci.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">Yachay &middot; Marzo 2026</div>
+</section>
+
+<!-- ===========================================
+     JAVASCRIPT — Slide Controller
+     =========================================== -->
+<script>
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.isScrolling = false;
+            this.setupIntersectionObserver();
+            this.setupKeyboardNav();
+            this.setupTouchNav();
+            this.setupWheelNav();
+            this.setupProgressBar();
+            this.setupNavDots();
+        }
+
+        /* Intersection Observer — triggers .visible class */
+        setupIntersectionObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        const index = Array.from(this.slides).indexOf(entry.target);
+                        this.currentSlide = index;
+                        this.updateProgressBar();
+                        this.updateNavDots();
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            this.slides.forEach(slide => observer.observe(slide));
+        }
+
+        /* Keyboard nav */
+        setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                switch(e.key) {
+                    case 'ArrowDown':
+                    case 'ArrowRight':
+                    case ' ':
+                    case 'PageDown':
+                        e.preventDefault();
+                        this.goToSlide(this.currentSlide + 1);
+                        break;
+                    case 'ArrowUp':
+                    case 'ArrowLeft':
+                    case 'PageUp':
+                        e.preventDefault();
+                        this.goToSlide(this.currentSlide - 1);
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        this.goToSlide(0);
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        this.goToSlide(this.slides.length - 1);
+                        break;
+                }
+            });
+        }
+
+        /* Touch/swipe */
+        setupTouchNav() {
+            let touchStartY = 0;
+            document.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            document.addEventListener('touchend', (e) => {
+                const diff = touchStartY - e.changedTouches[0].clientY;
+                if (Math.abs(diff) > 50) {
+                    this.goToSlide(this.currentSlide + (diff > 0 ? 1 : -1));
+                }
+            }, { passive: true });
+        }
+
+        /* Mouse wheel */
+        setupWheelNav() {
+            let lastWheel = 0;
+            document.addEventListener('wheel', (e) => {
+                const now = Date.now();
+                if (now - lastWheel < 800) return;
+                lastWheel = now;
+                if (Math.abs(e.deltaY) > 30) {
+                    this.goToSlide(this.currentSlide + (e.deltaY > 0 ? 1 : -1));
+                }
+            }, { passive: true });
+        }
+
+        /* Navigate to slide */
+        goToSlide(index) {
+            if (index < 0 || index >= this.slides.length) return;
+            this.currentSlide = index;
+            this.slides[index].scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /* Progress bar */
+        setupProgressBar() {
+            this.progressBar = document.getElementById('progressBar');
+            this.updateProgressBar();
+        }
+
+        updateProgressBar() {
+            if (!this.progressBar) return;
+            const progress = ((this.currentSlide + 1) / this.slides.length) * 100;
+            this.progressBar.style.width = progress + '%';
+        }
+
+        /* Nav dots */
+        setupNavDots() {
+            const container = document.getElementById('navDots');
+            if (!container) return;
+            this.slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', `Slide ${i + 1}`);
+                dot.addEventListener('click', () => this.goToSlide(i));
+                container.appendChild(dot);
+            });
+            this.navDotElements = container.querySelectorAll('.nav-dot');
+        }
+
+        updateNavDots() {
+            if (!this.navDotElements) return;
+            this.navDotElements.forEach((dot, i) => {
+                dot.classList.toggle('active', i === this.currentSlide);
+            });
+        }
+    }
+
+    /* Initialize */
+    document.addEventListener('DOMContentLoaded', () => {
+        new SlidePresentation();
+    });
+</script>
+
+</body>
+</html>
