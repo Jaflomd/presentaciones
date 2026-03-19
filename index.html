@@ -88,7 +88,13 @@ header p{font-size:.65rem;color:var(--text-dim);letter-spacing:.25em;text-transf
 .card:hover .card-tag::before{width:16px}
 .card-body h2{font-size:1.05rem;font-weight:400;line-height:1.45;margin-bottom:.6rem;color:#e0e0e0;letter-spacing:.01em;transition:color .3s}
 .card:hover .card-body h2{color:#fff}
-.card-body p{font-size:.78rem;color:var(--text-dim);line-height:1.65;flex:1}
+.card-body p{font-size:.78rem;color:var(--text-dim);line-height:1.65}
+
+/* Metadata grid */
+.card-meta{display:grid;grid-template-columns:1fr 1fr;gap:.4rem .75rem;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border)}
+.card-meta dt{font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);font-weight:400}
+.card-meta dd{font-size:.7rem;color:var(--text);margin-bottom:.25rem}
+
 .card-arrow{display:flex;align-items:center;gap:.5rem;font-size:.65rem;color:var(--gold);font-weight:400;margin-top:1.25rem;letter-spacing:.1em;text-transform:uppercase;transition:gap .3s,color .3s}
 .card:hover .card-arrow{gap:.8rem;color:var(--gold-light)}
 
@@ -141,9 +147,15 @@ footer::before{content:'';display:block;width:60px;height:1px;background:linear-
     <div class="card-thumb" data-src="psicoterapia-evidencia/">
     </div>
     <div class="card-body">
-      <div class="card-tag">Hospital de D&iacute;a</div>
+      <div class="card-tag">Rotaci&oacute;n &middot; Hospital de D&iacute;a</div>
       <h2>Psicoterapia Basada en Evidencia &mdash; &iquest;Mito o Realidad?</h2>
       <p>Revisi&oacute;n cr&iacute;tica de la evidencia detr&aacute;s de las psicoterapias m&aacute;s utilizadas en la pr&aacute;ctica cl&iacute;nica.</p>
+      <dl class="card-meta">
+        <div><dt>Fecha</dt><dd>19 mar 2026</dd></div>
+        <div><dt>Lugar</dt><dd>Hospital de D&iacute;a, HVLH</dd></div>
+        <div><dt>Audiencia</dt><dd>Residentes y psiquiatras</dd></div>
+        <div><dt>Duraci&oacute;n</dt><dd>45 min</dd></div>
+      </dl>
       <div class="card-arrow">Ver presentaci&oacute;n &#8594;</div>
     </div>
   </a>
@@ -154,9 +166,15 @@ footer::before{content:'';display:block;width:60px;height:1px;background:linear-
     <div class="card-thumb" data-src="neurodesarrollo-lifespan/">
     </div>
     <div class="card-body">
-      <div class="card-tag">Acad&eacute;mica</div>
+      <div class="card-tag">Psicoeducaci&oacute;n &middot; Telesalud</div>
       <h2>Tu Cerebro: Un Viaje de 80 A&ntilde;os &mdash; Neurodesarrollo Lifespan</h2>
       <p>Desde la neurulaci&oacute;n hasta el envejecimiento: el desarrollo del sistema nervioso a lo largo de toda la vida.</p>
+      <dl class="card-meta">
+        <div><dt>Fecha</dt><dd>19 mar 2026</dd></div>
+        <div><dt>Lugar</dt><dd>MINSA-HVLH, Telesalud</dd></div>
+        <div><dt>Audiencia</dt><dd>Poblaci&oacute;n general</dd></div>
+        <div><dt>Duraci&oacute;n</dt><dd>30 min</dd></div>
+      </dl>
       <div class="card-arrow">Ver presentaci&oacute;n &#8594;</div>
     </div>
   </a>
