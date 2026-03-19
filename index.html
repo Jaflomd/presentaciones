@@ -71,19 +71,14 @@ header p{font-size:.65rem;color:var(--text-dim);letter-spacing:.25em;text-transf
 .card::after{content:'';position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent 0%,var(--gold) 50%,transparent 100%);opacity:0;transform:translateX(-100%);transition:opacity .3s}
 .card:hover::after{opacity:.7;transform:translateX(0);transition:opacity .3s,transform .6s cubic-bezier(.23,1,.32,1)}
 
-/* Thumbnail */
-.card-thumb{height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:var(--gold-dim)}
-.card-thumb::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");opacity:.5;pointer-events:none}
-.card-thumb::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top,var(--surface),transparent)}
+/* Thumbnail with iframe preview */
+.card-thumb{height:220px;position:relative;overflow:hidden;background:var(--surface)}
+.card-thumb::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,var(--surface),transparent);z-index:1}
+.card-thumb iframe{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:0 0;border:none;pointer-events:none}
 
 /* Card number index */
 .card-num{position:absolute;top:1rem;right:1.25rem;font-size:3rem;font-weight:200;color:var(--gold);opacity:.08;z-index:3;line-height:1;font-variant-numeric:tabular-nums;transition:opacity .4s}
 .card:hover .card-num{opacity:.15}
-
-/* SVG Icons */
-.card-icon{width:64px;height:64px;z-index:1;opacity:.7;transition:opacity .4s,transform .4s}
-.card:hover .card-icon{opacity:.9;transform:scale(1.05)}
-.card-icon svg{width:100%;height:100%}
 
 /* Card body */
 .card-body{padding:1.5rem 1.75rem 1.75rem;flex:1;display:flex;flex-direction:column}
@@ -143,17 +138,7 @@ footer::before{content:'';display:block;width:60px;height:1px;background:linear-
   <a class="card" href="psicoterapia-evidencia/">
     <div class="card-glow"></div>
     <span class="card-num">01</span>
-    <div class="card-thumb">
-      <div class="card-icon">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="32" cy="24" r="14" stroke="#d4a017" stroke-width="1.5" opacity=".5"/>
-          <path d="M20 44c0-6.6 5.4-12 12-12s12 5.4 12 12" stroke="#d4a017" stroke-width="1.5" opacity=".3"/>
-          <circle cx="28" cy="22" r="2" fill="#d4a017" opacity=".6"/>
-          <circle cx="36" cy="22" r="2" fill="#d4a017" opacity=".6"/>
-          <path d="M27 28c2.5 2 7.5 2 10 0" stroke="#d4a017" stroke-width="1" opacity=".4" stroke-linecap="round"/>
-          <path d="M18 18l4 4M46 18l-4 4M32 8v5" stroke="#d4a017" stroke-width="1" opacity=".25" stroke-linecap="round"/>
-        </svg>
-      </div>
+    <div class="card-thumb" data-src="psicoterapia-evidencia/">
     </div>
     <div class="card-body">
       <div class="card-tag">Hospital de D&iacute;a</div>
@@ -166,19 +151,7 @@ footer::before{content:'';display:block;width:60px;height:1px;background:linear-
   <a class="card" href="neurodesarrollo-lifespan/">
     <div class="card-glow"></div>
     <span class="card-num">02</span>
-    <div class="card-thumb">
-      <div class="card-icon">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="32" cy="28" rx="16" ry="13" stroke="#d4a017" stroke-width="1.5" opacity=".5"/>
-          <path d="M22 28c0-5 4.5-9 10-9s10 4 10 9" stroke="#d4a017" stroke-width="1" opacity=".3"/>
-          <path d="M16 28h32" stroke="#d4a017" stroke-width=".5" opacity=".2"/>
-          <circle cx="26" cy="25" r="1.5" fill="#d4a017" opacity=".4"/>
-          <circle cx="32" cy="23" r="1.5" fill="#d4a017" opacity=".4"/>
-          <circle cx="38" cy="25" r="1.5" fill="#d4a017" opacity=".4"/>
-          <path d="M26 25l6-2 6 2" stroke="#d4a017" stroke-width=".75" opacity=".3"/>
-          <path d="M24 35l-4 8M40 35l4 8M32 34v10" stroke="#d4a017" stroke-width="1" opacity=".25" stroke-linecap="round"/>
-        </svg>
-      </div>
+    <div class="card-thumb" data-src="neurodesarrollo-lifespan/">
     </div>
     <div class="card-body">
       <div class="card-tag">Acad&eacute;mica</div>
@@ -202,6 +175,23 @@ document.querySelectorAll('.card').forEach(card=>{
     card.style.setProperty('--mx',e.clientX-r.left+'px');
     card.style.setProperty('--my',e.clientY-r.top+'px');
   });
+});
+
+// Inject iframe previews and scale to fit
+document.querySelectorAll('.card-thumb[data-src]').forEach(thumb=>{
+  const iframe=document.createElement('iframe');
+  iframe.src=thumb.dataset.src;
+  iframe.loading='lazy';
+  iframe.tabIndex=-1;
+  iframe.setAttribute('aria-hidden','true');
+  thumb.appendChild(iframe);
+  const fit=()=>{
+    const scale=thumb.offsetWidth/1920;
+    iframe.style.transform='scale('+scale+')';
+    iframe.style.height=(thumb.offsetHeight/scale)+'px';
+  };
+  fit();
+  window.addEventListener('resize',fit);
 });
 </script>
 </body>
